@@ -242,7 +242,14 @@ namespace BigRedCloud.Api
                 { VatTypesName, new VatTypesClient(apiKey) }
             };
         }
-
+        public static void AddProvider(ApiKeyElement localApiKeyConfig)
+        {
+            Lazy<ApiClientProvider> lazyProvider;
+            if (!_apiClientProviders.TryGetValue(localApiKeyConfig.Name, out lazyProvider))
+            {
+                _apiClientProviders[localApiKeyConfig.Name] = new Lazy<ApiClientProvider>(() => new ApiClientProvider(localApiKeyConfig.Value));
+            }
+        }
         #endregion Private methods
     }
 }
